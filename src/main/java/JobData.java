@@ -50,7 +50,8 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        // Bonus Mission - Returning a copy of allJobs
+        return (ArrayList<HashMap<String, String>>) allJobs.clone();
     }
 
     /**
@@ -70,10 +71,11 @@ public class JobData {
         loadData();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        value = value.toLowerCase();
 
         for (HashMap<String, String> row : allJobs) {
 
-            String aValue = row.get(column);
+            String aValue = row.get(column).toLowerCase();
 
             if (aValue.contains(value)) {
                 jobs.add(row);
@@ -94,8 +96,20 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        // TODO - implement this method
-        return null;
+        String search = value.toLowerCase();
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        for (HashMap<String, String> row : allJobs) {
+            for (String column : row.keySet()) {
+                if (row.get(column).toLowerCase().contains(search)) {
+                    if (!jobs.contains(row)) {
+                        jobs.add(row);
+                    }
+                    break;
+                }
+            }
+        }
+
+        return jobs;
     }
 
     /**
